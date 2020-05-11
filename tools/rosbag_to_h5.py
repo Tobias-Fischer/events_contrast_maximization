@@ -136,6 +136,9 @@ def extract_rosbags(rosbag_paths, output_dir, event_topic, image_topic, flow_top
     for path in rosbag_paths:
         bagname = os.path.splitext(os.path.basename(path))[0]
         out_path = os.path.join(output_dir, "{}.h5".format(bagname))
+        if os.path.isfile(out_path):
+            print("Skip {} as {} already exists".format(path, out_path))
+            continue
         print("Extracting {} to {}".format(path, out_path))
         extract_rosbag(path, out_path, event_topic, image_topic=image_topic,
                        flow_topic=flow_topic, zero_timestamps=zero_timestamps)
